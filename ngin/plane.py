@@ -58,7 +58,6 @@ def game_data():
  "width":30
 }
 """;
-}
 
 class MyHandler(EventHandler):
   def __init__(self, nx):
@@ -92,7 +91,7 @@ class MyHandler(EventHandler):
 
     p = self.nx.physical_builder(o, BodyShape.rectangle, info.x-0.5 + 2*math.sin(info.angle), info.y-0.5 - 2*math.cos(info.angle))
     p.angle = info.angle
-    v = self.nx.visible_builder(o, [nx.action_builder('kenney_pixelshmup/tiles_packed.png', 16, [1, 2, 3])])
+    v = self.nx.visible_builder(o, [self.nx.action_builder('kenney_pixelshmup/tiles_packed.png', 16, [1, 2, 3])])
     self.nx.send(Head.cobject, o, True)
     self.nx.forward(new_id, 0, 20)
     self.nx.timer(new_id, 0.7)
@@ -132,7 +131,7 @@ class MyHandler(EventHandler):
 
         o = self.nx.obj_builder(self.get_dynamic_id(), "fire")
         o.tid = contact.id1
-        self.nx.visible_builder(o, [nx.action_builder('kenney_pixelshmup/tiles_packed.png', 16, [5])])
+        self.nx.visible_builder(o, [self.nx.action_builder('kenney_pixelshmup/tiles_packed.png', 16, [5])])
         self.nx.send(Head.cobject, o, True)
 
   def event_handler(self, c):
@@ -143,8 +142,7 @@ class MyHandler(EventHandler):
 def demo():
   nx = Nx('bonsoirdemo', 4040)
   nx.set_event_handler(MyHandler(nx))
-  j = game_data()
-  f.close()
+  j = json.loads(game_data())
   t = j['layers'][0]
   tileSize = j['tilewidth']
   nx.send(Head.stage, nx.stage_builder(t['width'], t['height']), True)  
