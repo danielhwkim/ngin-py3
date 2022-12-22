@@ -52,18 +52,17 @@ class ServiceListener:
 class EventHandler:
   unexpected = 'Unexpected:'
   def handle(self, c):
-    match c.head:
-      case Head.key:
+    if c.head == Head.key:
         self.key_handler(c)
-      case Head.contact:
+    elif c.head == Head.contact:
         self.contact_handler(c)
-      case Head.event:
+    elif c.head == Head.event:
         self.event_handler(c)
-      case Head.directional:
+    elif c.head == Head.directional:
         self.directional_handler(c)
-      case Head.button:
+    elif c.head == Head.button:
         self.button_handler(c)
-      case _:
+    else:
         print(self.unexpected, c)
 
   def key_handler(self, c):
@@ -121,22 +120,21 @@ class Recv:
 
       c = CmdInfo()      
       c.ParseFromString(data)
-      match c.head:
-        case Head.ack:
+      if c.head == Head.ack:
           c = c.ack
           if self.return_ack:
             #print(f'ACK:{c.code} {c.info}')          
             return c.code
           else:
             print(f'Unexpected: ACK - {c.code} {c.info}')
-        case Head.cmd:
+      elif c.head == Head.cmd:
           c = c.cmd
           if self.return_cmd:
             #print(f'Cmd:{c}')          
             return c
           else:
             print(f'Unexpected: Cmd - {c}')
-        case _:
+      else:
           self.handler.handle(c)
 
 class CObjectInfo:

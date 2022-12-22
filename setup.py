@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name = 'ngin',
-    version = '0.4',
+    version = '0.5',
     license='MIT',
     description = 'ngin',
     author = 'Hoewon Kim',
